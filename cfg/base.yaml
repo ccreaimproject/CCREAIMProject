@@ -1,0 +1,89 @@
+hydra:
+  run:
+    dir: /scratch/other/sopi/CCREAIM/logs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: /scratch/other/sopi/CCREAIM/logs/${now:%Y-%m-%d}/${hyper.model}_${eval:'"train" if ${process.train} else "test"'}_${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
+  mode: MULTIRUN
+  callbacks:
+    log_job_return:
+      _target_: hydra.experimental.callbacks.LogJobReturnCallback
+
+defaults:
+  - _self_
+  - runs: ???
+  - override hydra/launcher: local
+
+# Logging
+logging:
+  wandb: true
+  silent: false
+  exp_name: ???
+  run_id: ${now:%Y-%m-%d}-${now:%H-%M-%S}-${hydra:job.num}
+  # Saved model destination
+  model_checkpoints: ${hydra:sweep.dir}/${hydra:sweep.subdir}/checkpoints
+  load_model_path: null
+  checkpoint: 5
+  # Output saving
+  save_pred: false
+  save_one_per_batch: true
+  pred_output: ${hydra:sweep.dir}/${hydra:sweep.subdir}/predictions
+
+
+process:
+  train: ???
+  # number of cross val splits, 0= only training, 1= run testing on the training set, 1< number of splits
+  cross_val_k: ???
+
+resources:
+  # DataLoader num_workers parameter
+  num_workers: 2
+
+  # General resource configs
+  timeout_min: 60
+  cpus_per_task: 1
+  gpus_per_node: 0
+  tasks_per_node: 1
+  mem_gb: 4
+  nodes: 1
+
+  # Slurm resource configs
+  partition: null
+  qos: null
+  comment: null
+  constraint: null
+  exclude: null
+  gres: null
+  cpus_per_gpu: null
+  gpus_per_task: null
+  mem_per_gpu: null
+  mem_per_cpu: null
+  max_num_timeout: 0
+
+data:
+  data_tar: ???
+  shuffle: true
+
+# Hyperparameters for runs (needed for loading the correct model)
+hyper:
+  seed: ???
+  model: ???
+  latent_dim: ???
+  seq_len: ???
+  num_seq: 1
+  seq_cat: false
+  epochs: ???
+  batch_size: ???
+  learning_rate: ???
+  lr_scheduler_gamma: 1.0
+  pre_trained_ae_path: null
+  pre_trained_vqvae_path: null
+  pre_trained_transformer_path: null
+  transformer: null
+    # num_heads_latent_dimension_div: ???
+    # num_enc_layers: ???
+    # num_dec_layers: ???
+    # autoregressive_loss_weight: ???
+    # linear_map: ???
+    # dim_feedforward: ???
+    # vocab_size: ???

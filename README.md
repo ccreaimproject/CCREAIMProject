@@ -83,15 +83,11 @@ For data augmentation, [PyTorch Audio Augmentations](https://github.com/Spijkerv
 
 CCREAIM is a hybrid transformer architecture, utilising attention weights to provide the musician with potentially interesting information about the motivation behind the AI's decisions.
 
-Copyright (C) 2024 SOPI Research Group, Aalto University
-
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
  
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program; if not see https://www.gnu.org/licenses/
-
-For further information please contact to Koray Tahiroglu; email: koray.tahiroglu@aalto.fi, mail: Aalto University School of Arts, Design and Architecture, Department of Media, room J101, Väre Otaniementie 14, 02150 Espoo, Finland
 
 
 We make use of the following open source projects:
